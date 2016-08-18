@@ -341,7 +341,7 @@ let wld_tiles_of_path pathstr =
     raise 
     (Wld_version_unsupported 
       (Printf.sprintf 
-      "World version must be '%d', but file '%s' is version '%d'" 
+      "World version must be %d, but file '%s' is version %d" 
       supported_wld_version pathstr version))
   end
   in

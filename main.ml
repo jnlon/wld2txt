@@ -1,4 +1,4 @@
-Log.set_info [Log.Stdout];;
+Log.set_info [];;
 
 let tiles = World.wld_tiles_of_path Sys.argv.(1) in
 
