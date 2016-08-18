@@ -149,20 +149,24 @@ let char_of_tile = function
     EmptyTile -> ' '
   (* Common blocks *)
   | Dirt -> '.'
-  | Stone | Ebonstone | Pearlstone | StoneSlab | Crimstone  -> '@'
+  | Stone | Ebonstone | Pearlstone | StoneSlab | Crimstone | ActiveStoneBlock  -> '@'
 
   | WoodBlock | Trees | PalmWood | BorealWood | DynastyWood | SpookyWood | PalmTree |
-    PineTree | ChristmasTree | Ebonwood | RichMahogany | Pearlwood | WoodenBeam | Shadewood  -> '%'
+    PineTree | ChristmasTree | Ebonwood | RichMahogany | Pearlwood | Shadewood  -> '%'
 
   | LivingMahogany | LivingWood -> 'T'
 
   | Sand | Ebonsand | Pearlsand | Crimsand -> 's'
 
+  | FleshBlock -> 'F'
+  | BoneBlock | FossilOre | DesertFossil -> '4'
+  | SlimeBlock | FrozenSlimeBlock | PinkSlimeBlock -> '8'
+
   | Sandstone | HardenedSand | CorruptHardenedSand | CrimsonHardenedSand |
     CorruptSandstone | CrimsonSandstone | HallowHardenedSand | HallowSandstone
   | SandStoneSlab -> 'S'
 
-  | Cloud | RainCloud -> 'C'
+  | Cloud | RainCloud | ChimneySmoke -> '3'
   | Mud | Mudstone | ClayBlock -> 'M'
 
   | MarbleBlock | Marble | Granite | GraniteBlock ->  'G'
@@ -172,67 +176,102 @@ let char_of_tile = function
   | Glass -> 'G'
   | Ash | Silt -> 'A'
   | SnowBlock -> 'N'
-  | IceBlock | BreakableIce | Stalactite | CorruptIce | HallowedIce | FleshIce | Slush -> 'I'
+  | IceBlock | BreakableIce | Stalactite | CorruptIce | HallowedIce | FleshIce |
+    Slush | MagicalIceBlock -> 'I'
 
   | LunarBlockSolar | LunarBlockVortex | LunarBlockNebula | LunarBlockStardust -> 'L'
 
   (* ores / shiny *)
   | Gold | Silver | Copper |  Meteorite | Demonite | Iron | Sapphire | Ruby |
     Emerald | Topaz | Diamond | Amethyst | Tin | Lead | Platinum | Cobalt |
-    Mythril | Adamantite | Tungsten | CopperCoinPile | SilverCoinPile |
-    GoldCoinPile | PlatinumCoinPile | Titanium | Palladium | Orichalcum |
+    Mythril | Adamantite | Tungsten | Titanium | Palladium | Orichalcum |
     Crimtane | Chlorophyte -> '*' 
 
-  | Spikes | WoodenSpikes  -> '^'
-
+  | Spikes | WoodenSpikes | Traps | TrapdoorClosed | TrapdoorOpen -> '^'
 
   (*plants*)
   | Plants | Saplings | Sunflower | CorruptPlants | JunglePlants |
     MushroomPlants | Plants2 | ImmatureHerbs | DyePlants | MatureHerbs |
-    BloomingHerbs | HallowedPlants | HallowedPlants2 | PlantDetritus -> 'p'
+    BloomingHerbs | HallowedPlants | HallowedPlants2 | PlantDetritus | VineFlowers -> 'p'
 
-  | CactusBlock | MushroomBlock | MushroomTrees | LeafBlock | Pumpkins -> 'P'
+  | CactusBlock | MushroomBlock | MushroomTrees | LeafBlock | Pumpkins |
+    HayBlock | PumpkinBlock -> 'P'
 
   | Grass | CorruptGrass | CorruptThorns | CrimtaneThorns | JungleThorns |
-    JungleGrass | JungleVines | CrimsonVines | MushroomGrass | HallowedGrass |
-    GreenMoss | BrownMoss | RedMoss | BlueMoss | PurpleMoss | LongMoss  |
-    LavaMoss | FleshWeeds  -> '+'
+    JungleGrass | JungleVines | CrimsonVines | HallowedVines | Vines | MushroomGrass |
+    HallowedGrass | FleshGrass | GreenMoss | BrownMoss | RedMoss | BlueMoss |
+    PurpleMoss | LongMoss  | LavaMoss | FleshWeeds | LivingMahoganyLeaves -> '+'
 
-
-  | Hive | HoneyBlock | CrispyHoneyBlock -> 'o'
- 
+  | Hive | HoneyBlock | CrispyHoneyBlock -> '&'
 
   (* misc *)
   | LunarOre | LunarMonolith -> 'l'
   | Cobweb -> 'x' 
   | ShadowOrbs | PlanteraBulb | LifeFruit -> '0'
 
-  | Explosives | LandMine | FireworksBox | LivingFire | FireworkFountain |
+  | Explosives | LandMine | FireworksBox | LivingFire | Detonator | FireworkFountain |
     LivingCursedFire | LivingDemonFire | LivingFrostFire | LivingIchor |
-    LivingUltrabrightFire -> 'e'
+    LivingUltrabrightFire | Cannon | SnowballLauncher -> 'e'
+
+  | Statues | AlphabetStatues | MushroomStatue -> 'q'
+
+  | Bubble | Boulder -> 'o'
+
+  | SmallPiles  | LargePiles | LargePiles2 | BeachPiles -> 'y'
+
+  | Switches -> '7' 
+  | Timers -> 'r'
+  | MusicBoxes -> 'm'
+  | Chimney -> 'v'
+  | Womannequin | Mannequin | TargetDummy -> '5'
+
+  | RedStucco | YellowStucco | GreenStucco | GrayStucco | RedDynastyShingles |
+    BlueDynastyShingles -> '\\'
+
+  | InletPump | OutletPump -> 'd'
+
+  | CrystalBlock -> 'C'
+  | CandyCaneBlock | GreenCandyCaneBlock | Presents -> 'J'
+
+  | Lever -> '/'
+  | Coral | Cactus | Coralstone -> 'Z'
+  | Thrones | Chairs | Benches -> 'h'
+  | Books | Bookcases -> 'i'
+  | Teleporter -> '1'
+  | Larva -> '2'
+  | BlueJay -> 'b'
+  | Confetti | ConfettiBlack -> '9'
+  | WeaponsRack | AmmoBox -> 'w'
+  | Cog -> 'c'
+  | MetalBars -> 'u'
 
   (* bricks/plating *)
   | GrayBrick | RedBrick | BlueDungeonBrick | GreenDungeonBrick |
     PinkDungeonBrick | GoldBrick | SilverBrick | CopperBrick  | ObsidianBrick |
     HellstoneBrick  |  PearlstoneBrick | IridescentBrick | CobaltBrick |
     MythrilBrick | DemoniteBrick | SnowBrick | SandstoneBrick | EbonstoneBrick |
-    RainbowBrick | TinBrick |  TungstenBrick | PlatinumBrick | IceBrick | LihzahrdBrick |
-    ChlorophyteBrick  | CrimtaneBrick  | MeteoriteBrick  | LunarBrick  |
-    CopperPlating  | TinPlating | ShroomitePlating | MartianConduitPlating | Titanstone
+    RainbowBrick | TinBrick |  TungstenBrick | PlatinumBrick | IceBrick |
+    LihzahrdBrick | ChlorophyteBrick  | CrimtaneBrick  | MeteoriteBrick  |
+    LunarBrick  | CopperPlating  | TinPlating | ShroomitePlating |
+    MartianConduitPlating | Titanstone
       -> '='
 
   (* Furniture *)
-  | Chairs | Tables | Loom | Pianos | Dressers | Benches | Bathtubs | Banners
-  | Lampposts | Kegs | CookingPots | Safes | Beds | Sinks | LivingLoom |
-    SkyMill | GrandfatherClocks | Statues -> 'f'
+  | Tables | Loom | Pianos | Dressers | Bathtubs | Banners | Lampposts | Kegs |
+    CookingPots | Beds | Sinks | LivingLoom | SkyMill | GrandfatherClocks -> 'f'
+
+  | PiggyBank | Safes | CopperCoinPile | SilverCoinPile | GoldCoinPile |
+    PlatinumCoinPile -> '$'
+
+  | Signs | Tombstones -> 'n'
 
   (* Light emitting furniture *)
   | WaterCandle | PeaceCandle | LavaLamp | Torches | Candles | Chandeliers |
     Jackolanterns | Fireplace | HolidayLights | PlatinumCandelabra | Candelabras |
-    PlatinumCandle | ChineseLanterns | Lamps | DiscoBall | CrystalBall |
-    Crystals | Campfire | Firework | SkullLanterns -> 'l' 
+    PlatinumCandle | ChineseLanterns | HangingLanterns | SkullLanterns  | Lamps |
+    DiscoBall | CrystalBall | Crystals | Campfire | Firework -> 'l' 
 
-  | Platforms | MinecartTrack | Asphalt -> '_'
+  | Platforms | MinecartTrack | Asphalt | Sunplate | Sundial -> '_'
 
    (*jars, bottles, pots*)
   | MonarchButterflyJar | PurpleEmperorButterflyJar | RedAdmiralButterflyJar |
@@ -240,14 +279,13 @@ let char_of_tile = function
     ZebraSwallowtailButterflyJar | JuliaButterflyJar | Bottles | Pots |
     Containers | ClayPot | BlueJellyfishBowl | GreenJellyfishBowl |
     PinkJellyfishBowl | ShipInABottle | Bowls |  FireflyinaBottle |
-    LightningBuginaBottle | FishBowl | TrashCan | PlanterBox -> 'U'
- 
-  | ClosedDoor | OpenDoor -> '/'
+    LightningBuginaBottle | FishBowl | TrashCan | PlanterBox | FishingCrate -> 'U'
 
-  | Rope | VineRope | SilkRope | WebRope -> '|'
+  | ClosedDoor | OpenDoor | TallGateClosed -> '/'
+
+  | Rope | VineRope | SilkRope | WebRope | Chain | WoodenBeam | AdamantiteBeam -> '|'
 
   | Painting3X3 | Painting4X3 | Painting6X4 | Painting2X3 | Painting3X2  -> '-'
-
 
   | AmethystGemsparkOff | TopazGemsparkOff | SapphireGemsparkOff |
     EmeraldGemsparkOff | RubyGemsparkOff | DiamondGemsparkOff |
@@ -256,19 +294,18 @@ let char_of_tile = function
   | AmethystGemspark | TopazGemspark | SapphireGemspark | EmeraldGemspark |
     RubyGemspark | DiamondGemspark | AmberGemspark  -> '*'
 
-
   (* Cages *)
   | CageBuggy | CageGrubby | CageSluggy | BunnyCage | DuckCage | SquirrelCage |
     MallardDuckCage | CageEnchantedNightcrawler | BirdCage  | CardinalCage |
     SnailCage | GoldBirdCage | GoldBunnyCage | GoldButterflyCage | GoldFrogCage |
     GoldGrasshopperCage | GoldMouseCage | GoldWormCage | GlowingSnailCage |
     PenguinCage | WormCage | ScorpionCage | BlackScorpionCage | FrogCage |
-    MouseCage | GrasshopperCage | SquirrelOrangeCage | SquirrelGoldCage  -> 'c'
+    MouseCage | GrasshopperCage | SquirrelOrangeCage | SquirrelGoldCage  -> '#'
 
 
   (* Crafting  *)
   | AlchemyTable  | BewitchingTable | TinkerersWorkbench | WorkBenches |
-    HeavyWorkBench | LunarCraftingStation | Sawmill -> 't'
+    HeavyWorkBench | LunarCraftingStation | Sawmill | DyeVat -> 't'
 
   | MythrilAnvil | Anvils | Autohammer | BoneWelder | SharpeningStation  -> 'z'
 
@@ -277,15 +314,14 @@ let char_of_tile = function
   | DemonAltar | LihzahrdAltar ->  'a' (* Altars *)
 
   | Blendomatic | MeatGrinder | Extractinator | Solidifier | IceMachine | (* Other machines *)
-    ImbuingStation | BubbleMachine | SteampunkBoiler | HoneyDispenser  -> 'm'
+    ImbuingStation | BubbleMachine | SteampunkBoiler | HoneyDispenser  -> '-'
 
 
   (* Liquids *)
-  | LiquidHoney | LiquidWater | LiquidLava -> '~'
+  | LiquidHoney | LiquidWater | LiquidLava | LavaDrip | WaterDrip | HoneyDrip |
+    Waterfall | Honeyfall | Lavafall -> '~'
 
-
-
-  | _ -> ' '
+  | InactiveStoneBlock | TallGateOpen |  _ -> ' '
 ;;
 
 
@@ -320,33 +356,33 @@ let tile_of_id = function
  | 26 -> DemonAltar  (* Altars *)
  | 27 -> Sunflower  (* Plants*)
  | 28 -> Pots  (**)
- | 29 -> PiggyBank 
+ | 29 -> PiggyBank (**)
  | 30 -> WoodBlock (**)
  | 31 -> ShadowOrbs  (**)
  | 32 -> CorruptThorns (**)
  | 33 -> Candles (**)
  | 34 -> Chandeliers (**)
  | 35 -> Jackolanterns (**)
- | 36 -> Presents 
+ | 36 -> Presents (**)
  | 37 -> Meteorite  (*shiny*)
  | 38 -> GrayBrick (* brick *)
  | 39 -> RedBrick (* brick *)
  | 40 -> ClayBlock (*common*)
  | 41 -> BlueDungeonBrick (* brick *)
- | 42 -> HangingLanterns 
+ | 42 -> HangingLanterns (**)
  | 43 -> GreenDungeonBrick (* brick *)
  | 44 -> PinkDungeonBrick (* brick *)
  | 45 -> GoldBrick (* brick *)
  | 46 -> SilverBrick (* brick *)
  | 47 -> CopperBrick (* brick *)
- | 48 -> Spikes 
+ | 48 -> Spikes (**)
  | 49 -> WaterCandle (**)
- | 50 -> Books 
+ | 50 -> Books (**)
  | 51 -> Cobweb  (**)
- | 52 -> Vines 
+ | 52 -> Vines (**)
  | 53 -> Sand (**)
  | 54 -> Glass (**)
- | 55 -> Signs 
+ | 55 -> Signs (**)
  | 56 -> Obsidian (**)
  | 57 -> Ash (**)
  | 58 -> Hellstone (**)
@@ -371,12 +407,12 @@ let tile_of_id = function
  | 77 -> Hellforge (**)
  | 78 -> ClayPot (**)
  | 79 -> Beds (**)
- | 80 -> Cactus 
- | 81 -> Coral 
+ | 80 -> Cactus (**)
+ | 81 -> Coral (**)
  | 82 -> ImmatureHerbs (**)
  | 83 -> MatureHerbs (**)
  | 84 -> BloomingHerbs (**)
- | 85 -> Tombstones
+ | 85 -> Tombstones(**)
  | 86 -> Loom (**)
  | 87 -> Pianos (**)
  | 88 -> Dressers (**)
@@ -392,8 +428,8 @@ let tile_of_id = function
  | 98 -> SkullLanterns (**)
  | 99 -> TrashCan (**)
  | 100 -> Candelabras (**)
- | 101 -> Bookcases 
- | 102 -> Thrones 
+ | 101 -> Bookcases (**)
+ | 102 -> Thrones (**)
  | 103 -> Bowls (**)
  | 104 -> GrandfatherClocks (**)
  | 105 -> Statues (**)
@@ -406,7 +442,7 @@ let tile_of_id = function
  | 112 -> Ebonsand (**)
  | 113 -> HallowedPlants2 (**)
  | 114 -> TinkerersWorkbench (**)
- | 115 -> HallowedVines 
+ | 115 -> HallowedVines (**)
  | 116 -> Pearlsand (**)
  | 117 -> Pearlstone (**)
  | 118 -> PearlstoneBrick (* brick *)
@@ -418,36 +454,36 @@ let tile_of_id = function
  | 124 -> WoodenBeam (**)
  | 125 -> CrystalBall (**)
  | 126 -> DiscoBall (**)
- | 127 -> MagicalIceBlock 
+ | 127 -> MagicalIceBlock (**)
  | 128 -> Mannequin 
  | 129 -> Crystals (**)
- | 130 -> ActiveStoneBlock 
- | 131 -> InactiveStoneBlock 
- | 132 -> Lever 
+ | 130 -> ActiveStoneBlock (**)
+ | 131 -> InactiveStoneBlock (**)
+ | 132 -> Lever (**)
  | 133 -> AdamantiteForge (**)
  | 134 -> MythrilAnvil (**)
  | 135 -> PressurePlates 
- | 136 -> Switches 
- | 137 -> Traps 
- | 138 -> Boulder 
- | 139 -> MusicBoxes 
+ | 136 -> Switches (**)
+ | 137 -> Traps (**)
+ | 138 -> Boulder (**)
+ | 139 -> MusicBoxes (**)
  | 140 -> DemoniteBrick (* brick *)
  | 141 -> Explosives (**)
- | 142 -> InletPump 
- | 143 -> OutletPump 
- | 144 -> Timers 
- | 145 -> CandyCaneBlock 
- | 146 -> GreenCandyCaneBlock 
+ | 142 -> InletPump (**)
+ | 143 -> OutletPump (**)
+ | 144 -> Timers (**)
+ | 145 -> CandyCaneBlock (**)
+ | 146 -> GreenCandyCaneBlock (**)
  | 147 -> SnowBlock (**)
  | 148 -> SnowBrick (* brick *)
  | 149 -> HolidayLights (**)
- | 150 -> AdamantiteBeam 
+ | 150 -> AdamantiteBeam (**)
  | 151 -> SandstoneBrick (* brick *)
  | 152 -> EbonstoneBrick (* brick *)
- | 153 -> RedStucco 
- | 154 -> YellowStucco 
- | 155 -> GreenStucco 
- | 156 -> GrayStucco
+ | 153 -> RedStucco (**)
+ | 154 -> YellowStucco (**)
+ | 155 -> GreenStucco (**)
+ | 156 -> GrayStucco(**)
  | 157 -> Ebonwood (**)
  | 158 -> RichMahogany (**)
  | 159 -> Pearlwood (**)
@@ -476,36 +512,36 @@ let tile_of_id = function
  | 182 -> BlueMoss (**)
  | 183 -> PurpleMoss (**)
  | 184 -> LongMoss (**)
- | 185 -> SmallPiles 
- | 186 -> LargePiles 
- | 187 -> LargePiles2 
+ | 185 -> SmallPiles (**)
+ | 186 -> LargePiles (**)
+ | 187 -> LargePiles2 (**)
  | 188 -> CactusBlock (**)
  | 189 -> Cloud (**)
  | 190 -> MushroomBlock (**)
  | 191 -> LivingWood (**)
  | 192 -> LeafBlock (**)
- | 193 -> SlimeBlock 
- | 194 -> BoneBlock 
- | 195 -> FleshBlock 
+ | 193 -> SlimeBlock (**)
+ | 194 -> BoneBlock (**)
+ | 195 -> FleshBlock (**)
  | 196 -> RainCloud (**)
- | 197 -> FrozenSlimeBlock 
+ | 197 -> FrozenSlimeBlock (**)
  | 198 -> Asphalt (**)
- | 199 -> FleshGrass 
+ | 199 -> FleshGrass (**)
  | 200 -> FleshIce (**)
  | 201 -> FleshWeeds (**)
- | 202 -> Sunplate 
+ | 202 -> Sunplate (**)
  | 203 -> Crimstone (**)
  | 204 -> Crimtane (**)
  | 205 -> CrimsonVines (**)
  | 206 -> IceBrick (* brick *)
  | 207 -> WaterFountain 
  | 208 -> Shadewood (**)
- | 209 -> Cannon 
+ | 209 -> Cannon (**)
  | 210 -> LandMine (**)
  | 211 -> Chlorophyte (**)
- | 212 -> SnowballLauncher 
+ | 212 -> SnowballLauncher (**)
  | 213 -> Rope (**)
- | 214 -> Chain 
+ | 214 -> Chain (**)
  | 215 -> Campfire (**)
  | 216 -> Firework (**)
  | 217 -> Blendomatic (**)
@@ -519,18 +555,18 @@ let tile_of_id = function
  | 225 -> Hive (**)
  | 226 -> LihzahrdBrick (* brick *)
  | 227 -> DyePlants (**)
- | 228 -> DyeVat 
+ | 228 -> DyeVat (**)
  | 229 -> HoneyBlock (**)
  | 230 -> CrispyHoneyBlock (**)
- | 231 -> Larva 
+ | 231 -> Larva (**)
  | 232 -> WoodenSpikes (**)
  | 233 -> PlantDetritus (**)
  | 234 -> Crimsand (**)
- | 235 -> Teleporter 
+ | 235 -> Teleporter (**)
  | 236 -> LifeFruit (**)
  | 237 -> LihzahrdAltar (**)
  | 238 -> PlanteraBulb (**)
- | 239 -> MetalBars 
+ | 239 -> MetalBars (**)
  | 240 -> Painting3X3 (**)
  | 241 -> Painting4X3 (**)
  | 242 -> Painting6X4 (**)
@@ -542,8 +578,8 @@ let tile_of_id = function
  | 248 -> PalladiumColumn 
  | 249 -> BubblegumBlock 
  | 250 -> Titanstone (**)
- | 251 -> PumpkinBlock 
- | 252 -> HayBlock 
+ | 251 -> PumpkinBlock (**)
+ | 252 -> HayBlock (**)
  | 253 -> SpookyWood (**)
  | 254 -> Pumpkins (**)
  | 255 -> AmethystGemsparkOff (**)
@@ -560,10 +596,10 @@ let tile_of_id = function
  | 266 -> RubyGemspark (**)
  | 267 -> DiamondGemspark (**)
  | 268 -> AmberGemspark (**)
- | 269 -> Womannequin 
+ | 269 -> Womannequin (**)
  | 270 -> FireflyinaBottle (**)
  | 271 -> LightningBuginaBottle (**)
- | 272 -> Cog 
+ | 272 -> Cog (**)
  | 273 -> StoneSlab (**)
  | 274 -> SandStoneSlab (**)
  | 275 -> BunnyCage (**)
@@ -571,14 +607,14 @@ let tile_of_id = function
  | 277 -> MallardDuckCage (**)
  | 278 -> DuckCage (**)
  | 279 -> BirdCage (**)
- | 280 -> BlueJay 
+ | 280 -> BlueJay (**)
  | 281 -> CardinalCage (**)
  | 282 -> FishBowl (**)
  | 283 -> HeavyWorkBench (**)
  | 284 -> CopperPlating (**)
  | 285 -> SnailCage (**)
  | 286 -> GlowingSnailCage (**)
- | 287 -> AmmoBox 
+ | 287 -> AmmoBox (**)
  | 288 -> MonarchButterflyJar (**)
  | 289 -> PurpleEmperorButterflyJar (**)
  | 290 -> RedAdmiralButterflyJar (**)
@@ -603,10 +639,10 @@ let tile_of_id = function
  | 309 -> PenguinCage (**)
  | 310 -> WormCage (**)
  | 311 -> DynastyWood (**)
- | 312 -> RedDynastyShingles 
- | 313 -> BlueDynastyShingles 
+ | 312 -> RedDynastyShingles (**)
+ | 313 -> BlueDynastyShingles (**)
  | 314 -> MinecartTrack (**)
- | 315 -> Coralstone 
+ | 315 -> Coralstone (**)
  | 316 -> BlueJellyfishBowl (**)
  | 317 -> GreenJellyfishBowl (**)
  | 318 -> PinkJellyfishBowl (**)
@@ -615,20 +651,20 @@ let tile_of_id = function
  | 321 -> BorealWood (**)
  | 322 -> PalmWood (**)
  | 323 -> PalmTree (**)
- | 324 -> BeachPiles 
+ | 324 -> BeachPiles (**)
  | 325 -> TinPlating (**)
- | 326 -> Waterfall 
- | 327 -> Lavafall 
- | 328 -> Confetti 
- | 329 -> ConfettiBlack 
+ | 326 -> Waterfall (**)
+ | 327 -> Lavafall (**)
+ | 328 -> Confetti (**)
+ | 329 -> ConfettiBlack (**)
  | 330 -> CopperCoinPile (**)
  | 331 -> SilverCoinPile (**)
  | 332 -> GoldCoinPile (**)
  | 333 -> PlatinumCoinPile (**)
- | 334 -> WeaponsRack 
+ | 334 -> WeaponsRack (**)
  | 335 -> FireworksBox (**)
  | 336 -> LivingFire (**)
- | 337 -> AlphabetStatues 
+ | 337 -> AlphabetStatues (**)
  | 338 -> FireworkFountain (**)
  | 339 -> GrasshopperCage (**)
  | 340 -> LivingCursedFire (**)
@@ -636,18 +672,18 @@ let tile_of_id = function
  | 342 -> LivingFrostFire (**)
  | 343 -> LivingIchor (**)
  | 344 -> LivingUltrabrightFire (**)
- | 345 -> Honeyfall 
+ | 345 -> Honeyfall (**)
  | 346 -> ChlorophyteBrick (* brick *)
  | 347 -> CrimtaneBrick (* brick *)
  | 348 -> ShroomitePlating (**)
- | 349 -> MushroomStatue 
+ | 349 -> MushroomStatue (**)
  | 350 -> MartianConduitPlating (**)
- | 351 -> ChimneySmoke 
+ | 351 -> ChimneySmoke (**)
  | 352 -> CrimtaneThorns (**)
  | 353 -> VineRope (**)
  | 354 -> BewitchingTable (**)
  | 355 -> AlchemyTable (**)
- | 356 -> Sundial 
+ | 356 -> Sundial (**)
  | 357 -> MarbleBlock (**)
  | 358 -> GoldBirdCage (**)
  | 359 -> GoldBunnyCage (**)
@@ -662,25 +698,25 @@ let tile_of_id = function
  | 368 -> Granite (**)
  | 369 -> GraniteBlock (**)
  | 370 -> MeteoriteBrick (* brick *)
- | 371 -> PinkSlimeBlock 
+ | 371 -> PinkSlimeBlock (**)
  | 372 -> PeaceCandle (**)
- | 373 -> WaterDrip 
- | 374 -> LavaDrip 
- | 375 -> HoneyDrip 
- | 376 -> FishingCrate 
+ | 373 -> WaterDrip (**)
+ | 374 -> LavaDrip (**)
+ | 375 -> HoneyDrip (**)
+ | 376 -> FishingCrate (**)
  | 377 -> SharpeningStation (**)
- | 378 -> TargetDummy 
- | 379 -> Bubble 
+ | 378 -> TargetDummy (**)
+ | 379 -> Bubble (**)
  | 380 -> PlanterBox (**)
  | 381 -> LavaMoss (**)
- | 382 -> VineFlowers 
+ | 382 -> VineFlowers (**)
  | 383 -> LivingMahogany (**)
- | 384 -> LivingMahoganyLeaves 
- | 385 -> CrystalBlock 
- | 386 -> TrapdoorOpen 
- | 387 -> TrapdoorClosed 
- | 388 -> TallGateClosed 
- | 389 -> TallGateOpen 
+ | 384 -> LivingMahoganyLeaves (**)
+ | 385 -> CrystalBlock (**)
+ | 386 -> TrapdoorOpen (**)
+ | 387 -> TrapdoorClosed (**)
+ | 388 -> TallGateClosed (**)
+ | 389 -> TallGateOpen (**)
  | 390 -> LavaLamp (**)
  | 391 -> CageEnchantedNightcrawler (**)
  | 392 -> CageBuggy (**)
@@ -695,14 +731,14 @@ let tile_of_id = function
  | 401 -> CrimsonSandstone (**)
  | 402 -> HallowHardenedSand (**)
  | 403 -> HallowSandstone (**)
- | 404 -> DesertFossil 
+ | 404 -> DesertFossil (**)
  | 405 -> Fireplace (**)
- | 406 -> Chimney 
- | 407 -> FossilOre 
- | 408 -> LunarOre 
+ | 406 -> Chimney (**)
+ | 407 -> FossilOre (**)
+ | 408 -> LunarOre (**)
  | 409 -> LunarBrick (* brick *)
- | 410 -> LunarMonolith 
- | 411 -> Detonator 
+ | 410 -> LunarMonolith (**)
+ | 411 -> Detonator (**)
  | 412 -> LunarCraftingStation (**)
  | 413 -> SquirrelOrangeCage (**)
  | 414 -> SquirrelGoldCage (**)
@@ -715,9 +751,9 @@ let tile_of_id = function
  (* Liquid isn't represented as a tile in the game, but it simplifies things if
     we assume it is. Here we assign some arbitrary ID's to represent liquids *)
 
- | 600 -> LiquidWater
- | 700 -> LiquidLava
- | 800 -> LiquidHoney
+ | 600 -> LiquidWater (**)
+ | 700 -> LiquidLava (**)
+ | 800 -> LiquidHoney (**)
 
  | _ -> EmptyTile
 

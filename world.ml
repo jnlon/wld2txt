@@ -31,6 +31,8 @@ let rec byte_size_of_type = function
 ;;
 
 exception Read_too_few_bytes of bytes ;;
+exception Wld_version_unsupported of string ;;
+let supported_wld_version = 156;;
 
 let single_read fd len =
   let buf = Bytes.create len in
@@ -327,8 +329,23 @@ let load_wld_header fd =
 
 let wld_tiles_of_path pathstr = 
 
+  Log.noticef "Reading world file '%s'\n" pathstr;
+
   let fd = Unix.openfile pathstr [Unix.O_RDONLY] 0 in
   let header = load_wld_header fd in
+  let version = Util.int_of_bytes @@ List.assoc "version" header in
+
+  let _ = 
+  if (supported_wld_version = version) then ()
+  else begin
+    raise 
+    (Wld_version_unsupported 
+      (Printf.sprintf 
+      "World version must be '%d', but file '%s' is version '%d'" 
+      supported_wld_version pathstr version))
+  end
+  in
+
   let tiles = load_wld_tiles fd header in
 
   Unix.close fd;

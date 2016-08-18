@@ -113,7 +113,7 @@ let fatalstr = str Fatal ;;
 
 let debugf s = printf Debug s ;;
 let infof s = printf Info s ;;
-let noticefs s = printf Notice s ;;
+let noticef s = printf Notice s ;;
 let warningf s = printf Warning s ;;
 let errorf s = printf Error s ;;
 let fatalf s = printf Fatal s ;;
