@@ -1,10 +1,4 @@
 all:
-	ocamlbuild -r -use-ocamlfind -pkg unix main.native
-tiles:
-	ocamlbuild -r -use-ocamlfind -pkg unix tiles.native
-util:
-	ocamlbuild -r -use-ocamlfind util.native
-run: all
-	./main.native worlds/World_1.wld
-clean:
-	rm -r _build
+	ocamlopt unix.cmxa log.ml extensions.ml util.ml tiles.ml world.ml main.ml -o wld2txt
+clean: 
+	rm *.o *.cmi *.cmx
