@@ -327,27 +327,31 @@ let load_wld_header fd =
   header;
 ;;
 
-let wld_tiles_of_path pathstr = 
-
-  Log.noticef "Reading world file '%s'\n" pathstr;
-
-  let fd = Unix.openfile pathstr [Unix.O_RDONLY] 0 in
+let wld_tiles_of_fd fd = 
   let header = load_wld_header fd in
   let version = Util.int_of_bytes @@ List.assoc "version" header in
 
   let _ = 
-  if (supported_wld_version = version) then ()
-  else begin
-    raise 
-    (Wld_version_unsupported 
-      (Printf.sprintf 
-      "World version must be %d, but file '%s' is version %d" 
-      supported_wld_version pathstr version))
-  end
+    if (supported_wld_version = version) 
+    then ()
+    else 
+    begin
+      let errstr = 
+        Printf.sprintf "World version must be %d, this wld has version %d" 
+                        supported_wld_version version 
+      in
+      raise (Wld_version_unsupported errstr)
+    end
   in
 
-  let tiles = load_wld_tiles fd header in
+  load_wld_tiles fd header 
+;;
 
-  Unix.close fd;
+let wld_tiles_of_path pathstr = 
+  Log.noticef "Reading world file '%s'\n" pathstr;
+  let open Unix in
+  let fd = openfile pathstr [O_RDONLY] 0 in
+  let tiles = wld_tiles_of_fd fd in
+  close fd;
   tiles
 ;;
