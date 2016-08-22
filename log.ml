@@ -69,7 +69,9 @@ let line lvl s = str lvl (s ^ "\n") ;;
 (* Log the file offset of 'fd' *)
 let file_offset lvl fd =
   let open Unix in
-  printf lvl "File offset: 0x%x\n" (lseek fd 0 SEEK_CUR)
+  try
+    printf lvl "File offset: 0x%x\n" (lseek fd 0 SEEK_CUR)
+  with unix_error -> ()
 ;;
 
 (* Turn a bytes object into a human readable string *)
