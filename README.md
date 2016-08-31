@@ -69,11 +69,9 @@ Here's an example of an ASCII [floating island](http://terraria.gamepedia.com/Fl
 
 # Usage
 
-**NOTE:** wld2txt is currently very unpolished, so exact usage is subject to change.
-
-wld2txt takes a single argument, a path to a .wld file. All output is printed
-to standard output, so you will want to use shell redirection to capture it to
-a file.
+`wld2txt` may either accept the contents of a wld file through stdin, or a path
+to a wld file as its first argument. All output is printed to stdout, so you
+will want to use shell redirection to capture it to a file.
 
 ### Example
 
@@ -92,10 +90,3 @@ You need the following software to build it:
 Once installed, `cd` into the root directory and run 'make'. 
 
 An executable called `wld2txt` will be generated.
-
-# ideas/todo
-
-* Polish commandline interface (options, multiple files, ...)
-* Mechanism to override default characters (config file?)
-* Coloured output
-* Multi-character regions

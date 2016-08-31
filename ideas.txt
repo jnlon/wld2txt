@@ -1,0 +1,34 @@
+Ideas/Todo
+
+Here are some cool feature ideas that I probably will never get around to
+implementing:
+
+(1) A proper commandline interface (multiple files, a file output flag...)
+(2) User customizable tile to character mappings (perhaps a config file?)
+(3) Coloured output
+(4) Multi-character regions
+
+For (4), I was thinking something like this:
+
+Here is what a 4x3 region of either 'LiquidWater', 'LiquidHoney', or
+'LiquidLava' currently looks like:
+
+~~~~
+~~~~
+~~~~
+
+The tilde character is great for representing liquid, but how do we tell them
+apart from one another? 
+
+How about 'intermixed' characters, so they could look something like:
+
+LiquidWater       LiquidHoney        LiquidLava
+
+  ~w~w              ~h~h               ~l~l
+  w~w~              h~h~               l~l~
+  ~w~w              ~h~h               ~l~l
+
+
+This technique of creating a sort of "texture" out of different kinds of
+characters (TXTures?) might produce really awesome looking images. Even more so
+if the ratio of every character were also configurable.
